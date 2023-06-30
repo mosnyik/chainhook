@@ -5,6 +5,21 @@ authors = []
 telemetry = true
 cache_dir = '.\.cache'
 requirements = []
+[contracts.clarity-bitcoin]
+path = 'contracts/clarity-bitcoin.clar'
+clarity_version = 1
+epoch = 2.0
+
+[contracts.clarity-bitcoin-helper]
+path = 'contracts/clarity-bitcoin-helper.clar'
+clarity_version = 1
+epoch = 2.0
+
+[contracts.helper]
+path = 'contracts/helper.clar'
+clarity_version = 1
+epoch = 2.0
+
 [contracts.nft-from-btc]
 path = 'contracts/nft-from-btc.clar'
 clarity_version = 1

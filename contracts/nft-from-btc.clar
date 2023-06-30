@@ -35,16 +35,16 @@
 (define-constant err-in-not-found (err u502))
 
 
-;; TODO get price from miners
-(define-read-only (sats-to-stx (sats uint))
-    (/ sats SATS-PER-STX))
+;; ;; TODO get price from miners
+;; (define-read-only (sats-to-stx (sats uint))
+;;     (/ sats SATS-PER-STX))
 
 ;; for compressed public keys
 (define-read-only (p2pkh-to-principal (scriptSig (buff 256)))
   (let ((pk (unwrap! (as-max-len? (unwrap! (slice? scriptSig (- (len scriptSig) u33) (len scriptSig)) none) u33) none)))
     (some (unwrap! (principal-of? pk) none))))
 
-(define-public (send-to-first-input (height uint) (tx (buff 1024))
+(define-public (mint-to-first-input (height uint) (tx (buff 1024))
                         (header { version: (buff 4), parent: (buff 32), merkle-root: (buff 32), timestamp: (buff 4), nbits: (buff 4), nonce: (buff 4) })
                         (proof { tx-index: uint, hashes: (list 14 (buff 32)), tree-depth: uint}))
     (let (
@@ -57,5 +57,6 @@
 
         ;; transfer stx to first-input
         (if was-mined
-            (stx-transfer? (sats-to-stx (get value first-output)) tx-sender (unwrap! (p2pkh-to-principal (get scriptSig first-input)) err-unsupported-tx))
+            ;; (stx-transfer? (sats-to-stx (get value first-output)) tx-sender (unwrap! (p2pkh-to-principal (get scriptSig first-input)) err-unsupported-tx))
+            (nft-mint? btc-nft token-id (unwrap! (p2pkh-to-principal (get scriptSig first-input)) err-unsupported-tx)) 
             err-not-found)))
